@@ -3,7 +3,7 @@ config {
   hasOutput: true,
   schema: "Archive_eSS",
   name: "migrate_all_tables_to_partitioned",
-  description: "One-time operation to safely transition all 6 Archive_eSS tables. Transactions are partitioned and clustered; Monthly/Quarterly are only clustered."
+  description: "One-time operation to safely transition all 6 eSS_Bronze tables to Archive_eSS. Transactions are partitioned and clustered; Monthly/Quarterly are only clustered."
 }
 
 -- =========================================================================
