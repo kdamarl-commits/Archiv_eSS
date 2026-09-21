@@ -25,7 +25,7 @@ DO
   """, record.table_name, record.table_name);
 END FOR;
 
-/* Deleted backup files after the migration and review with Loc */
+/* Deleted backup files after the migration and review with Tom */
 
 /* Partitioned 6 tables from eSS_Bronze into Archive_eSS */
 
