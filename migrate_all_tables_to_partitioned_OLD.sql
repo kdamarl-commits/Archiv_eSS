@@ -1,3 +1,34 @@
+/* Copy all tables from eSS_Bronze to Archive_eSS */
+
+config {
+  type: "operations",
+  hasOutput: false
+}
+
+-- 1. Create the target dataset in the 'US' location if it does not already exist
+CREATE SCHEMA IF NOT EXISTS `tabc-eds-test.Archive_eSS`
+OPTIONS(
+  location="US"
+);
+
+-- 2. Loop through every table in the eSS_Bronze dataset automatically
+FOR record IN (
+  SELECT table_name 
+  FROM `tabc-eds-test.eSS_Bronze.INFORMATION_SCHEMA.TABLES` 
+  WHERE table_type = 'BASE TABLE'
+)
+DO
+  -- 3. Dynamically copy each table into the newly ensured Archive_eSS dataset
+  EXECUTE IMMEDIATE FORMAT("""
+    CREATE OR REPLACE TABLE `tabc-eds-test.Archive_eSS.%s`
+    AS SELECT * FROM `tabc-eds-test.eSS_Bronze.%s`
+  """, record.table_name, record.table_name);
+END FOR;
+
+/* Deleted backup files after the migration and review with Loc */
+
+/* Partitioned 6 tables from eSS_Bronze into Archive_eSS */
+
 config {
   type: "operations",
   hasOutput: true,
