@@ -3,11 +3,11 @@ config {
   hasOutput: true,
   schema: "Archive_eSS",
   name: "migrate_all_tables_to_partitioned",
-  description: "One-time operation to safely migrate all 6 Bronze_eSS tables to Archive_eSS and to partition by execution_date and clustered appropriately."
+  description: "One-time operation to safely transition all 6 Archive_eSS tables. Transactions are partitioned and clustered; Monthly/Quarterly are only clustered."
 }
 
 -- =========================================================================
--- 1. SESSIONS TRANSACTIONS
+-- 1. SESSIONS TRANSACTIONS (Partitioned & Clustered)
 -- =========================================================================
 -- 1. Create a temporary partitioned and clustered copy of the table
 CREATE OR REPLACE TABLE `tabc-eds-test.Archive_eSS.Sessions_Transactions-temp`
@@ -29,7 +29,7 @@ DROP TABLE `tabc-eds-test.Archive_eSS.Sessions_Transactions-temp`;
 
 
 -- =========================================================================
--- 2. TRAINEES TRANSACTIONS
+-- 2. TRAINEES TRANSACTIONS (Partitioned & Clustered)
 -- =========================================================================
 -- 1. Create a temporary partitioned and clustered copy of the table
 CREATE OR REPLACE TABLE `tabc-eds-test.Archive_eSS.Trainees_Transactions-temp`
@@ -51,20 +51,20 @@ DROP TABLE `tabc-eds-test.Archive_eSS.Trainees_Transactions-temp`;
 
 
 -- =========================================================================
--- 3. SESSIONS MONTHLY
+-- 3. SESSIONS MONTHLY (Clustered Only)
 -- =========================================================================
--- 1. Create a temporary partitioned and clustered copy of the table
+-- 1. Create a temporary clustered copy of the table
 CREATE OR REPLACE TABLE `tabc-eds-test.Archive_eSS.Sessions_Monthly-temp`
-PARTITION BY execution_date
+-- PARTITION BY execution_date
 CLUSTER BY FY, FM
 AS SELECT * FROM `tabc-eds-test.Archive_eSS.Sessions_Monthly-tbl`;
 
--- 2. Drop the old non-partitioned table
+-- 2. Drop the old table
 DROP TABLE `tabc-eds-test.Archive_eSS.Sessions_Monthly-tbl`;
 
 -- 3. Copy the temporary table structure and data back to the original name
 CREATE OR REPLACE TABLE `tabc-eds-test.Archive_eSS.Sessions_Monthly-tbl`
-PARTITION BY execution_date
+-- PARTITION BY execution_date
 CLUSTER BY FY, FM
 AS SELECT * FROM `tabc-eds-test.Archive_eSS.Sessions_Monthly-temp`;
 
@@ -73,20 +73,20 @@ DROP TABLE `tabc-eds-test.Archive_eSS.Sessions_Monthly-temp`;
 
 
 -- =========================================================================
--- 4. SESSIONS QUARTERLY
+-- 4. SESSIONS QUARTERLY (Clustered Only)
 -- =========================================================================
--- 1. Create a temporary partitioned and clustered copy of the table
+-- 1. Create a temporary clustered copy of the table
 CREATE OR REPLACE TABLE `tabc-eds-test.Archive_eSS.Sessions_Quarterly-temp`
-PARTITION BY execution_date
+-- PARTITION BY execution_date
 CLUSTER BY FY, FQ
 AS SELECT * FROM `tabc-eds-test.Archive_eSS.Sessions_Quarterly-tbl`;
 
--- 2. Drop the old non-partitioned table
+-- 2. Drop the old table
 DROP TABLE `tabc-eds-test.Archive_eSS.Sessions_Quarterly-tbl`;
 
 -- 3. Copy the temporary table structure and data back to the original name
 CREATE OR REPLACE TABLE `tabc-eds-test.Archive_eSS.Sessions_Quarterly-tbl`
-PARTITION BY execution_date
+-- PARTITION BY execution_date
 CLUSTER BY FY, FQ
 AS SELECT * FROM `tabc-eds-test.Archive_eSS.Sessions_Quarterly-temp`;
 
@@ -95,20 +95,20 @@ DROP TABLE `tabc-eds-test.Archive_eSS.Sessions_Quarterly-temp`;
 
 
 -- =========================================================================
--- 5. TRAINEES MONTHLY
+-- 5. TRAINEES MONTHLY (Clustered Only)
 -- =========================================================================
--- 1. Create a temporary partitioned and clustered copy of the table
+-- 1. Create a temporary clustered copy of the table
 CREATE OR REPLACE TABLE `tabc-eds-test.Archive_eSS.Trainees_Monthly-temp`
-PARTITION BY execution_date
+-- PARTITION BY execution_date
 CLUSTER BY FY, FM
 AS SELECT * FROM `tabc-eds-test.Archive_eSS.Trainees_Monthly-tbl`;
 
--- 2. Drop the old non-partitioned table
+-- 2. Drop the old table
 DROP TABLE `tabc-eds-test.Archive_eSS.Trainees_Monthly-tbl`;
 
 -- 3. Copy the temporary table structure and data back to the original name
 CREATE OR REPLACE TABLE `tabc-eds-test.Archive_eSS.Trainees_Monthly-tbl`
-PARTITION BY execution_date
+-- PARTITION BY execution_date
 CLUSTER BY FY, FM
 AS SELECT * FROM `tabc-eds-test.Archive_eSS.Trainees_Monthly-temp`;
 
@@ -117,20 +117,20 @@ DROP TABLE `tabc-eds-test.Archive_eSS.Trainees_Monthly-temp`;
 
 
 -- =========================================================================
--- 6. TRAINEES QUARTERLY
+-- 6. TRAINEES QUARTERLY (Clustered Only)
 -- =========================================================================
--- 1. Create a temporary partitioned and clustered copy of the table
+-- 1. Create a temporary clustered copy of the table
 CREATE OR REPLACE TABLE `tabc-eds-test.Archive_eSS.Trainees_Quarterly-temp`
-PARTITION BY execution_date
+-- PARTITION BY execution_date
 CLUSTER BY FY, FQ
 AS SELECT * FROM `tabc-eds-test.Archive_eSS.Trainees_Quarterly-tbl`;
 
--- 2. Drop the old non-partitioned table
+-- 2. Drop the old table
 DROP TABLE `tabc-eds-test.Archive_eSS.Trainees_Quarterly-tbl`;
 
 -- 3. Copy the temporary table structure and data back to the original name
 CREATE OR REPLACE TABLE `tabc-eds-test.Archive_eSS.Trainees_Quarterly-tbl`
-PARTITION BY execution_date
+-- PARTITION BY execution_date
 CLUSTER BY FY, FQ
 AS SELECT * FROM `tabc-eds-test.Archive_eSS.Trainees_Quarterly-temp`;
 
