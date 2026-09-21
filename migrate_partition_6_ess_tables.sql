@@ -12,7 +12,7 @@ config {
 -- Explicitly drop the table first to reset the partitioning spec
 DROP TABLE IF EXISTS `tabc-eds-test.Archive_eSS.Sessions_Transactions-tbl`;
 
-CREATE TABLE `tabc-eds-test.Archive_eSS.Sessions_Transactions-tbl`
+CREATE TABLE IF NOT EXISTS `tabc-eds-test.Archive_eSS.Sessions_Transactions-tbl`
 PARTITION BY execution_date
 CLUSTER BY FY, FQ
 AS
@@ -39,7 +39,7 @@ FROM
 -- Explicitly drop the table first to reset the partitioning spec
 DROP TABLE IF EXISTS `tabc-eds-test.Archive_eSS.Trainees_Transactions-tbl`;
 
-CREATE TABLE `tabc-eds-test.Archive_eSS.Trainees_Transactions-tbl`
+CREATE TABLE IF NOT EXISTS `tabc-eds-test.Archive_eSS.Trainees_Transactions-tbl`
 PARTITION BY execution_date
 CLUSTER BY FY, FQ
 AS
@@ -72,7 +72,7 @@ FROM
 -- Explicitly drop the table first to reset the partitioning spec
 DROP TABLE IF EXISTS `tabc-eds-test.Archive_eSS.Sessions_Monthly-tbl`;
 
-CREATE TABLE `tabc-eds-test.Archive_eSS.Sessions_Monthly-tbl`
+CREATE TABLE IF NOT EXISTS `tabc-eds-test.Archive_eSS.Sessions_Monthly-tbl`
 CLUSTER BY FY, FM
 AS
 SELECT
@@ -92,7 +92,7 @@ FROM
 -- Explicitly drop the table first to reset the partitioning spec
 DROP TABLE IF EXISTS `tabc-eds-test.Archive_eSS.Sessions_Quarterly-tbl`;
 
-CREATE TABLE `tabc-eds-test.Archive_eSS.Sessions_Quarterly-tbl`
+CREATE TABLE IF NOT EXISTS `tabc-eds-test.Archive_eSS.Sessions_Quarterly-tbl`
 CLUSTER BY FY, FQ
 AS
 SELECT
@@ -112,7 +112,7 @@ FROM
 -- Explicitly drop the table first to reset the partitioning spec
 DROP TABLE IF EXISTS `tabc-eds-test.Archive_eSS.Trainees_Monthly-tbl`;
 
-CREATE TABLE `tabc-eds-test.Archive_eSS.Trainees_Monthly-tbl`
+CREATE TABLE IF NOT EXISTS `tabc-eds-test.Archive_eSS.Trainees_Monthly-tbl`
 CLUSTER BY FY, FM
 AS
 SELECT
@@ -132,7 +132,7 @@ FROM
 -- Explicitly drop the table first to reset the partitioning spec
 DROP TABLE IF EXISTS `tabc-eds-test.Archive_eSS.Trainees_Quarterly-tbl`;
 
-CREATE TABLE `tabc-eds-test.Archive_eSS.Trainees_Quarterly-tbl`
+CREATE TABLE IF NOT EXISTS `tabc-eds-test.Archive_eSS.Trainees_Quarterly-tbl`
 CLUSTER BY FY, FQ
 AS
 SELECT
